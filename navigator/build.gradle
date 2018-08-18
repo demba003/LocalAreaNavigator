@@ -1,0 +1,12 @@
+apply plugin: 'java-library'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.simpleframework:simple-xml:2.7.1'
+    implementation 'es.usc.citius.hipster:hipster-core:1.0.1'
+    implementation 'org.json:json:20180130'
+    testImplementation 'junit:junit:4.12'
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
