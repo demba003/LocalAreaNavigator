@@ -1,6 +1,9 @@
 package com.demba.navigator.models;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -52,31 +55,43 @@ public class Graph {
     public static Graph from(Path path) {
         List<Vertex> vertices = path.getPoints();
 
-        for (int i = 0; i < vertices.size(); i++) {
+        /*for (int i = 0; i < vertices.size(); i++) {
             for (int j = 0; j < vertices.size(); j++) {
                 if (vertices.get(i) != vertices.get(j) && areVerticesClose(vertices.get(j),vertices.get(i))) {
-                    double newLat = (Double.parseDouble(vertices.get(i).getLatitude()) + Double.parseDouble(vertices.get(j).getLatitude())) / 2;
-                    double newLon = (Double.parseDouble(vertices.get(i).getLongitude()) + Double.parseDouble(vertices.get(j).getLongitude())) / 2;
+                    double newLat = round((Double.parseDouble(vertices.get(i).getLatitude()) + Double.parseDouble(vertices.get(j).getLatitude())) / 2, 5);
+                    double newLon = round((Double.parseDouble(vertices.get(i).getLongitude()) + Double.parseDouble(vertices.get(j).getLongitude())) / 2, 5);
 
-                    Vertex newVertex = new Vertex(String.valueOf(newLat), String.valueOf(newLon), vertices.get(i).getFloor());
+                    Vertex newVertex = new Vertex(String.valueOf(newLat), String.valueOf(newLon), vertices.get(i).getFloor(), vertices.get(i).getName());
 
                     vertices.set(i, newVertex);
                     vertices.set(j, newVertex);
                 }
             }
-        }
+        }*/
 
         GraphBuilder<Vertex, Edge> graphBuilder = GraphBuilder.create();
 
+        Set<Edge> usedEdges = new HashSet<>();
         for (int i = 0; i < vertices.size() - 1; i++) {
             Edge edge = new Edge(vertices.get(i), vertices.get(i + 1));
-            graphBuilder
-                    .connect(edge.getSource())
-                    .to(edge.getDestination())
-                    .withEdge(edge);
+            if (!usedEdges.contains(edge)) {
+                graphBuilder
+                        .connect(edge.getSource())
+                        .to(edge.getDestination())
+                        .withEdge(edge);
+                usedEdges.add(edge);
+            }
         }
 
         return new Graph(graphBuilder.createUndirectedGraph());
+    }
+
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 
     private static boolean areVerticesClose(Vertex vertex1, Vertex vertex2) {

@@ -11,8 +11,10 @@ import org.json.JSONStringer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GeoJson {
     public static String encode(Graph graph) {
@@ -88,25 +90,29 @@ public class GeoJson {
     }
 
     private static void encodeVertices(JSONStringer json, List<Vertex> vertices) throws JSONException {
+        Set<Vertex> usedVertices = new HashSet<>();
         for (Vertex vertex : vertices) {
-            json
-                .object()
-                    .key("type").value("Feature")
-                    .key("properties")
-                        .object()
-                            .key("name").value(vertex.getName())
-                            .key("floor").value(vertex.getFloor())
-                        .endObject()
-                    .key("geometry")
-                        .object()
-                            .key("type").value("Point")
-                            .key("coordinates")
-                                .array()
-                                    .value(Double.parseDouble(vertex.getLongitude()))
-                                    .value(Double.parseDouble(vertex.getLatitude()))
-                                .endArray()
-                        .endObject()
-                .endObject();
+            if (!usedVertices.contains(vertex)) {
+                json
+                    .object()
+                        .key("type").value("Feature")
+                        .key("properties")
+                            .object()
+                                .key("name").value(vertex.getName())
+                                .key("floor").value(vertex.getFloor())
+                            .endObject()
+                        .key("geometry")
+                            .object()
+                                .key("type").value("Point")
+                                .key("coordinates")
+                                    .array()
+                                        .value(Double.parseDouble(vertex.getLongitude()))
+                                        .value(Double.parseDouble(vertex.getLatitude()))
+                                    .endArray()
+                            .endObject()
+                    .endObject();
+                usedVertices.add(vertex);
+            }
         }
     }
 
@@ -138,7 +144,12 @@ public class GeoJson {
     private static List<Edge> makeEdgesFromVertices(List<Vertex> vertices) {
         List<Edge> list = new ArrayList<>();
         for (int i = 0; i < vertices.size() - 1; i++) {
-            list.add(new Edge(vertices.get(i), vertices.get(i + 1)));
+            if (!vertices.get(i).equals(vertices.get(i + 1))) {
+                Edge edge = new Edge(vertices.get(i), vertices.get(i + 1));
+                if (!list.contains(edge)) {
+                    list.add(edge);
+                }
+            }
         }
         return list;
     }

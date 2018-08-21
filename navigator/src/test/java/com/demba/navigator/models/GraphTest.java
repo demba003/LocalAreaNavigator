@@ -14,6 +14,14 @@ import static org.junit.Assert.*;
 public class GraphTest {
 
     @Test
+    public void kampus() throws Exception {
+        //System.out.println(GeoJson.encode(Graph.from(Path.from(Gpx.read(SampleGpxTrack.track2)))));
+        System.out.println(GeoJson.encode(Path.from(Gpx.read(SampleGpxTrack.track2))));
+        System.out.println(GeoJson.encode(GeoJson.parse(GeoJson.encode(Path.from(Gpx.read(SampleGpxTrack.track3)).simplify()))));
+    }
+
+
+    @Test
     public void fromTest() throws Exception {
         // given
         Path path = Path.from(Gpx.read(SampleGpxTrack.track));

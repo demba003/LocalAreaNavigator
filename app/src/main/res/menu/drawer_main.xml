@@ -5,12 +5,15 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/view_map"
             android:icon="@drawable/ic_map_black"
             android:title="Mapa" />
         <item
+            android:id="@+id/browse_places"
             android:icon="@drawable/ic_library_books"
             android:title="Przeglądaj miejsca" />
         <item
+            android:id="@+id/make_location"
             android:icon="@drawable/ic_person_walking"
             android:title="Utwórz własną lokację" />
     </group>

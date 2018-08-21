@@ -11,6 +11,8 @@ public class Vertex {
     private final String floor;
     private String name;
 
+    private static int counter = 0;
+
     public Vertex(String latitude, String longitude, String floor, String name) {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -26,7 +28,8 @@ public class Vertex {
         return new Vertex(
                 trkptEntity.lat,
                 trkptEntity.lon,
-                "0");
+                "0",
+                String.valueOf(counter++));
     }
 
     public String getLatitude() {
@@ -70,6 +73,15 @@ public class Vertex {
     @Override
     public int hashCode() {
         return Objects.hashCode(latitude + longitude);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Vertex vertex = (Vertex) o;
+        return Objects.equals(getLatitude(), vertex.getLatitude()) &&
+                Objects.equals(getLongitude(), vertex.getLongitude());
     }
 
     @Override
