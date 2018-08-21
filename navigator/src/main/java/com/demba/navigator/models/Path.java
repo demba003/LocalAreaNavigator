@@ -31,7 +31,7 @@ public class Path {
                     double newLat = round((Double.parseDouble(getPoints().get(i).getLatitude()) + Double.parseDouble(getPoints().get(j).getLatitude())) / 2, 5);
                     double newLon = round((Double.parseDouble(getPoints().get(i).getLongitude()) + Double.parseDouble(getPoints().get(j).getLongitude())) / 2, 5);
 
-                    Vertex newVertex = new Vertex(String.valueOf(newLat), String.valueOf(newLon), getPoints().get(i).getFloor(), getPoints().get(i).getName());
+                    Vertex newVertex = new Vertex(String.valueOf(newLat), String.valueOf(newLon), getPoints().get(i).getFloor());
 
                     getPoints().set(i, newVertex);
                     getPoints().set(j, newVertex);
@@ -43,7 +43,7 @@ public class Path {
     }
 
     private static boolean areVerticesClose(Vertex vertex1, Vertex vertex2) {
-        return vertex1.getDistance(vertex2) < 15;
+        return vertex1.getDistance(vertex2) < 5;
     }
 
     private static double round(double value, int places) {

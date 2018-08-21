@@ -1,4 +1,4 @@
-package com.demba.navigator;
+package com.demba.localareanavigator.screen.main;
 
 public class SampleGpxTrack {
     public static String track = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +

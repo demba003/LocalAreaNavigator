@@ -12,7 +12,7 @@ public class Navigator {
         this.graph = graph;
     }
 
-    public Navigator fromGeojson(String geoJsonData) {
+    public static Navigator fromGeojson(String geoJsonData) {
         return new Navigator(GeoJson.parse(geoJsonData));
     }
 
@@ -25,7 +25,7 @@ public class Navigator {
         return GeoJson.encode(shortestPath);
     }
 
-    public String getGeoJsonFromGpx(String gpxData) throws Exception {
-        return GeoJson.encode(Graph.from(Path.from(Gpx.read(gpxData))));
+    public static String getGeoJsonFromGpx(String gpxData) throws Exception {
+        return GeoJson.encode(Path.from(Gpx.read(gpxData)).simplify());
     }
 }

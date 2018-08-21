@@ -11,8 +11,6 @@ public class Vertex {
     private final String floor;
     private String name;
 
-    private static int counter = 0;
-
     public Vertex(String latitude, String longitude, String floor, String name) {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -28,8 +26,7 @@ public class Vertex {
         return new Vertex(
                 trkptEntity.lat,
                 trkptEntity.lon,
-                "0",
-                String.valueOf(counter++));
+                "0");
     }
 
     public String getLatitude() {

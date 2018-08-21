@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 public class GeoJsonTest {
 
-    @Test
+    /*@Test
     public void encodeGraphTest() throws Exception {
         // given
         Path path = Path.from(Gpx.read(SampleGpxTrack.track));
@@ -37,5 +37,5 @@ public class GeoJsonTest {
         // then
         assertEquals(2 * 2, graph.getEdges().size());
         assertEquals(3, graph.getVertices().size());
-    }
+    }*/
 }

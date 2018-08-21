@@ -1,32 +1,28 @@
 package com.demba.navigator.models;
 
+import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.graph.DefaultUndirectedWeightedGraph;
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import es.usc.citius.hipster.algorithm.Hipster;
-import es.usc.citius.hipster.graph.GraphBuilder;
-import es.usc.citius.hipster.graph.GraphSearchProblem;
-import es.usc.citius.hipster.graph.HipsterGraph;
-import es.usc.citius.hipster.model.impl.WeightedNode;
-import es.usc.citius.hipster.model.problem.SearchProblem;
-
 public class Graph {
-    private HipsterGraph<Vertex, Edge> graph;
+    private org.jgrapht.Graph<Vertex, DefaultWeightedEdge> graph;
+    private Set<Edge> edges;
 
-    private Graph(HipsterGraph<Vertex, Edge> graph) {
+    private Graph(org.jgrapht.Graph<Vertex, DefaultWeightedEdge> graph, List<Edge> edges) {
         this.graph = graph;
+        this.edges = new HashSet<>(edges);
     }
 
-    public List<Vertex> getVertices() {
-        List<Vertex> vertices = new ArrayList<>();
-        graph.vertices().forEach(vertices::add);
-        return vertices;
+    public Set<Vertex> getVertices() {
+        return graph.vertexSet();
     }
 
     public Vertex getVertexByName(String name) {
@@ -46,85 +42,26 @@ public class Graph {
                 .collect(Collectors.toSet());
     }
 
-    public List<Edge> getEdges() {
-        List<Edge> edges = new ArrayList<>();
-        graph.edges().forEach(edge -> edges.add(edge.getEdgeValue()));
+    public Set<Edge> getEdges() {
         return edges;
     }
 
-    public static Graph from(Path path) {
-        List<Vertex> vertices = path.getPoints();
+    public static Graph from(List<Vertex> vertices, List<Edge> edges) {
+        org.jgrapht.Graph<Vertex, DefaultWeightedEdge> graph = new DefaultUndirectedWeightedGraph<>(DefaultWeightedEdge.class);
 
-        /*for (int i = 0; i < vertices.size(); i++) {
-            for (int j = 0; j < vertices.size(); j++) {
-                if (vertices.get(i) != vertices.get(j) && areVerticesClose(vertices.get(j),vertices.get(i))) {
-                    double newLat = round((Double.parseDouble(vertices.get(i).getLatitude()) + Double.parseDouble(vertices.get(j).getLatitude())) / 2, 5);
-                    double newLon = round((Double.parseDouble(vertices.get(i).getLongitude()) + Double.parseDouble(vertices.get(j).getLongitude())) / 2, 5);
-
-                    Vertex newVertex = new Vertex(String.valueOf(newLat), String.valueOf(newLon), vertices.get(i).getFloor(), vertices.get(i).getName());
-
-                    vertices.set(i, newVertex);
-                    vertices.set(j, newVertex);
-                }
-            }
-        }*/
-
-        GraphBuilder<Vertex, Edge> graphBuilder = GraphBuilder.create();
-
-        Set<Edge> usedEdges = new HashSet<>();
-        for (int i = 0; i < vertices.size() - 1; i++) {
-            Edge edge = new Edge(vertices.get(i), vertices.get(i + 1));
-            if (!usedEdges.contains(edge)) {
-                graphBuilder
-                        .connect(edge.getSource())
-                        .to(edge.getDestination())
-                        .withEdge(edge);
-                usedEdges.add(edge);
-            }
-        }
-
-        return new Graph(graphBuilder.createUndirectedGraph());
-    }
-
-    private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
-
-    private static boolean areVerticesClose(Vertex vertex1, Vertex vertex2) {
-        return vertex1.getDistance(vertex2) < 10;
-    }
-
-    public static Graph from(List<Edge> edges) {
-        GraphBuilder<Vertex, Edge> graphBuilder = GraphBuilder.create();
-
+        vertices.forEach(graph::addVertex);
         for (Edge edge : edges) {
-            graphBuilder
-                    .connect(edge.getSource())
-                    .to(edge.getDestination())
-                    .withEdge(edge);
+            graph.addEdge(edge.getSource(), edge.getDestination());
         }
 
-        return new Graph(graphBuilder.createUndirectedGraph());
+        return new Graph(graph, edges);
     }
 
     public Path getShortestPath(Vertex source, Vertex destination) {
-        SearchProblem<Edge, Vertex, WeightedNode<Edge, Vertex, Double>> searchProblem = GraphSearchProblem
-                .startingFrom(source)
-                .in(graph)
-                .takeCostsFromEdges()
-                .build();
-
-        List<Vertex> result = Hipster
-                .createDijkstra(searchProblem)
-                .search(destination)
-                .getOptimalPaths()
-                .get(0);
-
-        return new Path(result);
+        DijkstraShortestPath<Vertex, DefaultWeightedEdge> dijkstra = new DijkstraShortestPath<>(this.graph);
+        return new Path(dijkstra
+                .getPath(source, destination)
+                .getVertexList());
     }
 
     @Override

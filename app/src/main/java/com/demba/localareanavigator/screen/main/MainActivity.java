@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import com.demba.localareanavigator.R;
 import com.demba.localareanavigator.screen.map.MapFragment;
+import com.demba.navigator.Navigator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -41,6 +42,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        try {
+            System.out.println(Navigator.getGeoJsonFromGpx(SampleGpxTrack.track4));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

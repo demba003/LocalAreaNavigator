@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 
 public class GraphTest {
 
-    @Test
+    /*@Test
     public void kampus() throws Exception {
         //System.out.println(GeoJson.encode(Graph.from(Path.from(Gpx.read(SampleGpxTrack.track2)))));
         System.out.println(GeoJson.encode(Path.from(Gpx.read(SampleGpxTrack.track2))));
@@ -72,5 +72,5 @@ public class GraphTest {
         // then
         assertEquals(1, names.size());
         assertEquals("0", names.stream().findFirst().orElse(""));
-    }
+    }*/
 }

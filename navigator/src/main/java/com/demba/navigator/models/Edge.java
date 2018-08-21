@@ -1,11 +1,17 @@
 package com.demba.navigator.models;
 
+import org.jgrapht.graph.DefaultWeightedEdge;
+
 import java.util.Objects;
 
-public class Edge {
-    private final Vertex source;
-    private final Vertex destination;
-    private final double distance;
+public class Edge extends DefaultWeightedEdge {
+    private Vertex source;
+    private Vertex destination;
+    private double distance;
+
+    public Edge() {
+        super();
+    }
 
     public Edge(Vertex source, Vertex destination) {
         this.source = source;

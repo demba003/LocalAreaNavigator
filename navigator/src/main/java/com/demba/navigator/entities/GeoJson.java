@@ -5,9 +5,9 @@ import com.demba.navigator.models.Graph;
 import com.demba.navigator.models.Path;
 import com.demba.navigator.models.Vertex;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
+import org.json2.JSONException;
+import org.json2.JSONObject;
+import org.json2.JSONStringer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class GeoJson {
     public static String encode(Graph graph) {
@@ -24,13 +25,8 @@ public class GeoJson {
                 .key("type").value("FeatureCollection")
                 .key("features").array();
 
-        encodeVertices(json, graph.getVertices());
-
-        List<Edge> edges = new ArrayList<>();
-        for (int i = 0; i < graph.getEdges().size()/2; i++) {
-            edges.add(graph.getEdges().get(i));
-        }
-        encodeEdges(json, edges);
+        encodeVertices(json, new ArrayList<>(graph.getVertices()));
+        encodeEdges(json, new ArrayList<>(graph.getEdges()));
 
         json.endArray().endObject();
 
@@ -70,7 +66,7 @@ public class GeoJson {
             }
         }
 
-        return Graph.from(edges);
+        return Graph.from(vertices.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList()), edges);
     }
 
     public static String encode(Path path) {
