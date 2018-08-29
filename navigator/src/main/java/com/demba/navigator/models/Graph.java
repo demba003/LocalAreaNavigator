@@ -34,12 +34,12 @@ public class Graph {
                 .orElse(null);
     }
 
-    public Set<String> getVerticesNames() {
+    public List<String> getVerticesNames() {
         return getVertices()
                 .stream()
                 .filter(Vertex::hasName)
                 .map(Vertex::getName)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     public Set<Edge> getEdges() {

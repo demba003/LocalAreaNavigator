@@ -5,6 +5,8 @@ import com.demba.navigator.entities.Gpx;
 import com.demba.navigator.models.Graph;
 import com.demba.navigator.models.Path;
 
+import java.util.List;
+
 public class Navigator {
     private Graph graph;
 
@@ -23,6 +25,10 @@ public class Navigator {
                         graph.getVertexByName(destination)
                 );
         return GeoJson.encode(shortestPath);
+    }
+
+    public List<String> getWaypointsNames() {
+        return graph.getVerticesNames();
     }
 
     public static String getGeoJsonFromGpx(String gpxData) throws Exception {
