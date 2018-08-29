@@ -16,6 +16,10 @@
             android:id="@+id/make_location"
             android:icon="@drawable/ic_person_walking"
             android:title="Utwórz własną lokację" />
+        <item
+            android:id="@+id/legal_notices"
+            android:icon="@drawable/ic_court"
+            android:title="Informacje prawne" />
     </group>
 
 </menu>
