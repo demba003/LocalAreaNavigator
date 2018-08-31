@@ -27,6 +27,15 @@ public class Navigator {
         return GeoJson.encode(shortestPath);
     }
 
+    public String getShortestPathGeoJson(String sourceLatitude, String sourceLongitude, String destination) {
+        Path shortestPath = graph
+                .getShortestPath(
+                        graph.getNearestVertex(sourceLatitude, sourceLongitude),
+                        graph.getVertexByName(destination)
+                );
+        return GeoJson.encode(shortestPath);
+    }
+
     public List<String> getWaypointsNames() {
         return graph.getVerticesNames();
     }

@@ -4,8 +4,6 @@ import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.DefaultUndirectedWeightedGraph;
 import org.jgrapht.graph.DefaultWeightedEdge;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
@@ -32,6 +30,21 @@ public class Graph {
                 .filter(vertex -> vertex.getName().equals(name))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Vertex getNearestVertex(String sourceLatitude, String sourceLongitude) {
+        Vertex sourceVertex = new Vertex(sourceLatitude, sourceLongitude, "0");
+        Vertex returnVertex = null;
+        double distance = java.lang.Double.POSITIVE_INFINITY;
+
+        for (Vertex vertex : getVertices()) {
+            if (sourceVertex.getDistance(vertex) < distance) {
+                distance = sourceVertex.getDistance(vertex);
+                returnVertex = vertex;
+            }
+        }
+
+        return returnVertex;
     }
 
     public List<String> getVerticesNames() {
