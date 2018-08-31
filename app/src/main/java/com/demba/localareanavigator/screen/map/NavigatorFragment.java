@@ -1,6 +1,8 @@
 package com.demba.localareanavigator.screen.map;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -10,8 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.demba.localareanavigator.R;
-import com.demba.localareanavigator.utils.AssetLoader;
-import com.demba.navigator.Navigator;
+import com.demba.localareanavigator.utils.SnackbarUtils;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
@@ -20,8 +21,6 @@ import com.mapbox.mapboxsdk.style.layers.LineLayer;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 
-import java.io.IOException;
-
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -29,24 +28,28 @@ import butterknife.OnClick;
 public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
     private NavigatorView view;
     private NavigatorPresenter presenter;
+    View fragmentView;
+    View findRouteView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_map, container, false);
+        fragmentView = inflater.inflate(R.layout.fragment_map, container, false);
 
-        ButterKnife.bind(this, view);
+        ButterKnife.bind(this, fragmentView);
 
         Mapbox.getInstance(getContext(), "pk.eyJ1IjoiZGVtYmEiLCJhIjoiY2pibWo3cW43M2I5eDM0cjY0eG4zY2JxZyJ9.SFBv4D82Ih54yJHF5U__BQ");
-        MapView mapView = view.findViewById(R.id.mapView);
+        MapView mapView = fragmentView.findViewById(R.id.mapView);
         mapView.onCreate(savedInstanceState);
         mapView.getMapAsync(this);
 
-        return view;
+        return fragmentView;
     }
 
     @OnClick(R.id.fab)
     public void showRouteDialog(View view) {
-        this.view.showRouteDialog();
+        if(view != null) {
+            this.view.showRouteDialog();
+        }
     }
 
     @Override
@@ -84,8 +87,8 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
         }
 
         void showRouteDialog() {
-            if (findRouteDialog != null) {
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item, presenter.getWaypoints());
+            if (findRouteDialog != null && getContext() != null) {
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.dialog_navigation_dropdown, presenter.getWaypoints());
                 sourceTextView.setAdapter(adapter);
                 destinationTextView.setAdapter(adapter);
                 findRouteDialog.show();
@@ -93,7 +96,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
         }
 
         private void buildRouteDialog() {
-            final View findRouteView = LayoutInflater
+            findRouteView = LayoutInflater
                     .from(getContext())
                     .inflate(R.layout.dialog_navigation, null);
 
@@ -106,13 +109,30 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             findRouteView
                     .findViewById(R.id.showRoute)
                     .setOnClickListener(v -> {
-                        presenter.showRoute(sourceTextView.getText().toString(), destinationTextView.getText().toString());
-                        findRouteDialog.dismiss();
+                        if(presenter.showRoute(getContext(), sourceTextView.getText().toString(), destinationTextView.getText().toString())) {
+                            findRouteDialog.dismiss();
+                        }
                     });
+
+            findRouteView
+                    .findViewById(R.id.myLocationSource)
+                    .setOnClickListener(v -> sourceTextView.setText(R.string.my_location));
+
+            findRouteView
+                    .findViewById(R.id.myLocationDestination)
+                    .setOnClickListener(v -> destinationTextView.setText(R.string.my_location));
         }
 
         void showRoute(String route) {
             geoJsonSource.setGeoJson(route);
+        }
+
+        public void showDestinationReached() {
+            SnackbarUtils.showSuccess(getContext(), findRouteView, getString(R.string.destination_reached), Snackbar.LENGTH_SHORT);
+        }
+
+        public void showBadWaypointError() {
+            SnackbarUtils.showError(getContext(), findRouteView, getString(R.string.bad_waypoint), Snackbar.LENGTH_SHORT);
         }
     }
 }

@@ -9,4 +9,7 @@
     <string name="show_route">Show route</string>
     <string name="from">From:</string>
     <string name="to">To:</string>
+    <string name="bad_waypoint">Couldn\'t find desired location</string>
+    <string name="my_location">My location</string>
+    <string name="destination_reached">You\'ve already reached destination!</string>
 </resources>

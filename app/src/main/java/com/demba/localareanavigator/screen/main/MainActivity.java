@@ -42,12 +42,6 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        try {
-            System.out.println(Navigator.getGeoJsonFromGpx(SampleGpxTrack.track4));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

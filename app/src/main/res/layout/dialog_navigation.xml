@@ -23,16 +23,29 @@
     <AutoCompleteTextView
         android:id="@+id/sourceTextView"
         android:layout_width="0dp"
-        android:layout_height="46dp"
-        android:layout_marginEnd="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="4dp"
         android:layout_marginStart="10dp"
+        android:completionThreshold="1"
+        android:dropDownWidth="match_parent"
         android:minWidth="200dp"
         android:textAlignment="center"
-        android:completionThreshold="1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/myLocationSource"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Starting point" />
+
+    <ImageView
+        android:id="@+id/myLocationSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/sourceTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sourceTextView"
+        app:srcCompat="@drawable/ic_my_location" />
 
     <TextView
         android:id="@+id/textView2"
@@ -50,16 +63,29 @@
         android:id="@+id/destinationTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:completionThreshold="1"
+        android:dropDownWidth="match_parent"
         android:minWidth="200dp"
         android:textAlignment="center"
-        android:completionThreshold="1"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/myLocationDestination"
         app:layout_constraintStart_toEndOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/sourceTextView"
         tools:text="Finish point" />
+
+    <ImageView
+        android:id="@+id/myLocationDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="@+id/destinationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/destinationTextView"
+        app:srcCompat="@drawable/ic_my_location" />
 
     <Button
         android:id="@+id/showRoute"

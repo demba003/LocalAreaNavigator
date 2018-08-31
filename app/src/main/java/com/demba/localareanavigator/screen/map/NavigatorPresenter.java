@@ -17,8 +17,17 @@ public class NavigatorPresenter {
         this.view = view;
     }
 
-    public void showRoute(String source, String destination) {
-        view.showRoute(navigator.getShortestPathGeoJson(source, destination));
+    public boolean showRoute(Context context, String source, String destination) {
+        if (getWaypoints().contains(source) && getWaypoints().contains(destination)) {
+            view.showRoute(navigator.getShortestPathGeoJson(source, destination));
+            return true;
+        } else if (source.equals(destination) && !source.isEmpty()) {
+            view.showDestinationReached();
+            return false;
+        } else {
+            view.showBadWaypointError();
+            return false;
+        }
     }
 
     public List<String> getWaypoints() {
