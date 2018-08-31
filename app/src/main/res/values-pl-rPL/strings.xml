@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Local Area Navigator</string>
+    <string name="to">Koniec:</string>
+    <string name="from">Początek:</string>
+    <string name="show_route">Pokaż trasę</string>
+</resources>

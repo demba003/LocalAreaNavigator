@@ -1,6 +1,7 @@
 package com.demba.localareanavigator.screen.main;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,13 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.demba.localareanavigator.R;
-import com.demba.localareanavigator.screen.map.MapFragment;
+import com.demba.localareanavigator.screen.map.NavigatorFragment;
 import com.demba.navigator.Navigator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,18 +60,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.view_map:
                 getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.content_frame, new MapFragment())
+                        .replace(R.id.content_frame, new NavigatorFragment())
                         .commit();
                 break;
             case R.id.browse_places:
 
                 break;
             case R.id.make_location:
+
+                break;
+            case R.id.legal_notices:
 
                 break;
         }

@@ -13,12 +13,17 @@ public class AssetLoader {
 
     private static final String DELIMITER_NEW_LINE = "\n";
 
-    public static String loadGeoJson(@NonNull Context context, String filename) throws IOException{
-        InputStream inputStream = context.getAssets().open(filename);
-        return new BufferedReader(
-                new InputStreamReader(inputStream))
+    public static String loadGeoJson(@NonNull Context context, String filename) {
+        try {
+            InputStream inputStream = context.getAssets().open(filename);
+            return new BufferedReader(
+                    new InputStreamReader(inputStream))
                     .lines()
                     .parallel()
                     .collect(Collectors.joining(DELIMITER_NEW_LINE));
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

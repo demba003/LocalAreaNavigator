@@ -1,5 +1,6 @@
 package com.demba.navigator.entities;
 
+import com.demba.navigator.Navigator;
 import com.demba.navigator.SampleGeojsonTrack;
 import com.demba.navigator.SampleGpxTrack;
 import com.demba.navigator.models.Graph;
@@ -10,6 +11,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class GeoJsonTest {
+
+    @Test
+    public void kampus() throws Exception {
+        String data = Navigator.getGeoJsonFromGpx(SampleGpxTrack.track5);
+        Navigator navigator = Navigator.fromGeojson(data);
+        System.out.println(data);
+        System.out.println(navigator.getShortestPathGeoJson("115", "175"));
+    }
 
     /*@Test
     public void encodeGraphTest() throws Exception {
