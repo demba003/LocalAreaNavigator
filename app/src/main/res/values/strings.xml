@@ -12,4 +12,5 @@
     <string name="bad_waypoint">Couldn\'t find desired location</string>
     <string name="my_location">My location</string>
     <string name="destination_reached">You\'ve already reached destination!</string>
+    <string name="ground_floor">Ground floor</string>
 </resources>

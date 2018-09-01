@@ -45,6 +45,7 @@ dependencies {
     annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:4.0.0-alpha1"
 
     implementation 'com.mapbox.mapboxsdk:mapbox-android-sdk:6.4.0'
+    implementation 'com.mapbox.mapboxsdk:mapbox-android-plugin-locationlayer:0.8.0'
 
     implementation 'com.github.clans:fab:1.6.4'
 

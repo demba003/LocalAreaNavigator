@@ -17,4 +17,10 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="Fab">
+        <item name="fab_colorNormal">@color/fab_colorNormal</item>
+        <item name="fab_colorPressed">@color/fab_colorPressed</item>
+        <item name="fab_colorRipple">@color/fab_colorRipple</item>
+    </style>
+
 </resources>

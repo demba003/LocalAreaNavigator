@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorError">#de0000</color>
     <color name="colorSuccess">#00de00</color>
+
+    <color name="fab_colorNormal">#1565C0</color>
+    <color name="fab_colorPressed">#2272CD</color>
+    <color name="fab_colorRipple">#62B2FF</color>
 </resources>
