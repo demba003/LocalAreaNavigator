@@ -54,6 +54,9 @@ public class Path {
         return bd.doubleValue();
     }
 
+    public void addStartingVertex(Vertex vertex) {
+        points.add(0, vertex);
+    }
 
     public List<Vertex> getPoints() {
         return points;

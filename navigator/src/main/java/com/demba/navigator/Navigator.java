@@ -4,6 +4,7 @@ import com.demba.navigator.entities.GeoJson;
 import com.demba.navigator.entities.Gpx;
 import com.demba.navigator.models.Graph;
 import com.demba.navigator.models.Path;
+import com.demba.navigator.models.Vertex;
 
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class Navigator {
                         graph.getNearestVertex(sourceLatitude, sourceLongitude),
                         graph.getVertexByName(destination)
                 );
+
+        shortestPath.addStartingVertex(new Vertex(sourceLatitude, sourceLongitude, "0"));
+
         return GeoJson.encode(shortestPath);
     }
 
