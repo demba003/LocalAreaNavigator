@@ -15,7 +15,11 @@ import com.demba.localareanavigator.R;
 import com.demba.localareanavigator.utils.FloorChangeDirections;
 import com.demba.localareanavigator.utils.SnackbarUtils;
 import com.github.clans.fab.FloatingActionButton;
+import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraUpdateFactory;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.geometry.LatLngBounds;
 import com.mapbox.mapboxsdk.maps.MapView;
 import com.mapbox.mapboxsdk.maps.MapboxMap;
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
@@ -94,7 +98,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             presenter.changeFloor(FloorChangeDirections.DOWN);
         }
 
-        public void setFloor(int floorNumber) {
+        void setFloor(int floorNumber) {
             if (floorNumber == 0) {
                 floor.setText(getString(R.string.ground_floor));
             } else {
@@ -102,7 +106,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
-        public void setDirectionFabState(FloorChangeDirections direction, boolean enabled) {
+        void setDirectionFabState(FloorChangeDirections direction, boolean enabled) {
             switch (direction) {
                 case DOWN:
                     fab_down.setEnabled(enabled);
@@ -153,11 +157,13 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             findRouteView
                     .findViewById(R.id.showRoute)
                     .setOnClickListener(v -> {
-                        if(presenter.showRoute(getContext(), sourceTextView.getText().toString(), destinationTextView.getText().toString())) {
+                        if (presenter.showRoute(getContext(), sourceTextView.getText().toString(), destinationTextView.getText().toString())) {
                             findRouteDialog.dismiss();
                             fab_up.setVisibility(View.VISIBLE);
                             fab_down.setVisibility(View.VISIBLE);
                             floor.setVisibility(View.VISIBLE);
+                            moveCameraToRoute();
+
                         }
                     });
 
@@ -174,11 +180,32 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             geoJsonSource.setGeoJson(route);
         }
 
-        public void showDestinationReached() {
+        private void moveCameraToRoute() {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+            geoJsonSource
+                    .querySourceFeatures(null)
+                    .forEach(feature -> {
+                        try {
+                            Point point = ((Point) feature.geometry());
+                            builder.include(
+                                    new LatLng(
+                                            point.latitude(),
+                                            point.longitude()
+                                    )
+                            );
+                        } catch (ClassCastException ignored) {}
+                    });
+
+            LatLngBounds latLngBounds = builder.build();
+            mapboxMap.moveCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 50));
+        }
+
+        void showDestinationReached() {
             SnackbarUtils.showSuccess(getContext(), findRouteView, getString(R.string.destination_reached), Snackbar.LENGTH_SHORT);
         }
 
-        public void showBadWaypointError() {
+        void showBadWaypointError() {
             SnackbarUtils.showError(getContext(), findRouteView, getString(R.string.bad_waypoint), Snackbar.LENGTH_SHORT);
         }
     }
