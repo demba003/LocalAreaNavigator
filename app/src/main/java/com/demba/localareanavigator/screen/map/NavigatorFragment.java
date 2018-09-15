@@ -38,9 +38,9 @@ import butterknife.OnClick;
 public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
     private NavigatorView view;
     private NavigatorPresenter presenter;
-    MapView mapView;
-    View fragmentView;
-    View findRouteView;
+    private MapView mapView;
+    private View fragmentView;
+    private View findRouteView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,11 +55,52 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mapView.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mapView.onDestroy();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
     public void onMapReady(MapboxMap mapboxMap) {
         this.view = new NavigatorView(mapboxMap);
         presenter = new NavigatorPresenter(getContext(), this.view);
     }
-
 
     class NavigatorView {
         private MapboxMap mapboxMap;

@@ -1,5 +1,6 @@
 package com.demba.localareanavigator.screen.main;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,7 +13,7 @@ import android.view.MenuItem;
 
 import com.demba.localareanavigator.R;
 import com.demba.localareanavigator.screen.map.NavigatorFragment;
-import com.demba.navigator.Navigator;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    private final RxPermissions rxPermissions = new RxPermissions(this);
 
     private Unbinder unbinder;
     @BindView(R.id.drawer_layout) DrawerLayout drawer;
@@ -42,6 +44,12 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        rxPermissions.
+                request(Manifest.permission.ACCESS_FINE_LOCATION).
+                doOnComplete(() -> {
+                    System.out.println(rxPermissions.isGranted(Manifest.permission.ACCESS_FINE_LOCATION));
+                })
+                .subscribe();
     }
 
     @Override
@@ -55,7 +63,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.view_map:
                 getSupportFragmentManager()
                         .beginTransaction()
@@ -77,7 +85,8 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    @Override public void onDestroy() {
+    @Override
+    public void onDestroy() {
         super.onDestroy();
         unbinder.unbind();
     }
