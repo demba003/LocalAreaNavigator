@@ -85,8 +85,8 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         mapView.onDestroy();
     }
 

@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.demba.localareanavigator.R;
+import com.demba.localareanavigator.screen.browseplaces.BrowsePlacesFragment;
 import com.demba.localareanavigator.screen.map.NavigatorFragment;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
@@ -71,7 +72,10 @@ public class MainActivity extends AppCompatActivity
                         .commit();
                 break;
             case R.id.browse_places:
-
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_frame, new BrowsePlacesFragment())
+                        .commit();
                 break;
             case R.id.make_location:
 
