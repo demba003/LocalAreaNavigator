@@ -46,7 +46,7 @@ class BrowsePlacesFragment : Fragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeBy(
                         onSuccess = {
-                            val adapter = PlaceAdapter(context, it)
+                            val adapter = PlaceAdapter(context!!, it)
                             placesRecycler.layoutManager = LinearLayoutManager(activity)
                             placesRecycler.adapter = adapter
                             placesRecycler.itemAnimator = DefaultItemAnimator()

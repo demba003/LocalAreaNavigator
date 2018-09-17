@@ -9,4 +9,5 @@
     <color name="fab_colorNormal">#1565C0</color>
     <color name="fab_colorPressed">#2272CD</color>
     <color name="fab_colorRipple">#62B2FF</color>
+    <color name="white">#FFFFFF</color>
 </resources>

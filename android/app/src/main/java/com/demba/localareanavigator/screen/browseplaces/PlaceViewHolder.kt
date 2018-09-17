@@ -8,7 +8,6 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.element_card_place.view.*
 
 class PlaceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
     val name: TextView = itemView.name
-//    val image: ImageView = itemView.image
+    val image: ImageView = itemView.image
 }
