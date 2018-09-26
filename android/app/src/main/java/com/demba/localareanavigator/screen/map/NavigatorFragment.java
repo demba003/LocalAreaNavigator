@@ -12,8 +12,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 
 import com.demba.localareanavigator.R;
+import com.demba.localareanavigator.network.models.Place;
 import com.demba.localareanavigator.utils.FloorChangeDirections;
 import com.demba.localareanavigator.utils.SnackbarUtils;
+import com.demba.navigator.Navigator;
 import com.github.clans.fab.FloatingActionButton;
 import com.mapbox.geojson.Point;
 import com.mapbox.mapboxsdk.Mapbox;
@@ -41,6 +43,14 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
     private MapView mapView;
     private View fragmentView;
     private View findRouteView;
+
+    public static NavigatorFragment getFragment(Place place) {
+        NavigatorFragment navigatorFragment = new NavigatorFragment();
+        Bundle arguments = new Bundle();
+        arguments.putSerializable("place", place);
+        navigatorFragment.setArguments(arguments);
+        return navigatorFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -121,7 +131,6 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             ButterKnife.bind(this, fragmentView);
             initMapElements();
             buildRouteDialog();
-            setFloor(0);
         }
 
         @OnClick(R.id.fab)
@@ -132,6 +141,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
         @OnClick(R.id.fab_up)
         public void floorUp(View view) {
             presenter.changeFloor(FloorChangeDirections.UP);
+
         }
 
         @OnClick(R.id.fab_down)
@@ -204,7 +214,6 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
                             fab_down.setVisibility(View.VISIBLE);
                             floor.setVisibility(View.VISIBLE);
                             moveCameraToRoute();
-
                         }
                     });
 
@@ -243,11 +252,11 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
         }
 
         void showDestinationReached() {
-            SnackbarUtils.showSuccess(getContext(), findRouteView, getString(R.string.destination_reached), Snackbar.LENGTH_SHORT);
+            SnackbarUtils.INSTANCE.showSuccess(getContext(), findRouteView, getString(R.string.destination_reached), Snackbar.LENGTH_SHORT);
         }
 
         void showBadWaypointError() {
-            SnackbarUtils.showError(getContext(), findRouteView, getString(R.string.bad_waypoint), Snackbar.LENGTH_SHORT);
+            SnackbarUtils.INSTANCE.showError(getContext(), findRouteView, getString(R.string.bad_waypoint), Snackbar.LENGTH_SHORT);
         }
     }
 }

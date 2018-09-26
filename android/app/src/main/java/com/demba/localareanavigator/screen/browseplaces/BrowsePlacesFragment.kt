@@ -7,21 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.demba.localareanavigator.R
-import com.demba.localareanavigator.network.models.Place
 import kotlinx.android.synthetic.main.fragment_browse_places.*
-import android.support.v7.widget.DefaultItemAnimator
-import com.demba.localareanavigator.network.BackendService
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.subscribeBy
-import io.reactivex.schedulers.Schedulers
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-
+import com.demba.localareanavigator.network.models.Place
 
 class BrowsePlacesFragment : Fragment() {
-
     private lateinit var fragmentView: View
+    private lateinit var presenter: BrowsePlacesPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -31,30 +22,23 @@ class BrowsePlacesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        presenter = BrowsePlacesPresenter(this)
+        presenter.downloadPlaces()
+    }
 
-        val retrofit = Retrofit.Builder()
-                .baseUrl("http://172.19.75.229:8080/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build()
+    fun displayDownloadedPlaces(places: List<Place>) {
+        val adapter = PlaceAdapter(context!!, places, presenter::onCardClick)
+        placesRecycler.layoutManager = LinearLayoutManager(activity)
+        placesRecycler.adapter = adapter
+        adapter.notifyDataSetChanged()
+        hideProgressBar()
+    }
 
-        val service = retrofit.create(BackendService::class.java)
+    fun showLoadingError() {
+        loadingErrorText.visibility = View.VISIBLE
+    }
 
-        service
-                .getPlaces()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeBy(
-                        onSuccess = {
-                            val adapter = PlaceAdapter(context!!, it)
-                            placesRecycler.layoutManager = LinearLayoutManager(activity)
-                            placesRecycler.adapter = adapter
-                            placesRecycler.itemAnimator = DefaultItemAnimator()
-                            adapter.notifyDataSetChanged()
-                        },
-                        onError = {
-                            it.printStackTrace()
-                        }
-                )
+    fun hideProgressBar() {
+        progressBar.visibility = View.GONE
     }
 }

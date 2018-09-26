@@ -13,4 +13,5 @@
     <string name="my_location">My location</string>
     <string name="destination_reached">You\'ve already reached destination!</string>
     <string name="ground_floor">Ground floor</string>
+    <string name="loading_error">Cannot load list of places</string>
 </resources>

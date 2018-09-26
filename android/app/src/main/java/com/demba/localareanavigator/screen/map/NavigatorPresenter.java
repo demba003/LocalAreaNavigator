@@ -6,16 +6,20 @@ import com.demba.localareanavigator.R;
 import com.demba.localareanavigator.utils.AssetLoader;
 import com.demba.localareanavigator.utils.FloorChangeDirections;
 import com.demba.navigator.Navigator;
+import com.demba.navigator.entities.GeoJson;
+import com.demba.navigator.models.Path;
 
 import java.util.List;
 
 public class NavigatorPresenter {
     private Navigator navigator;
     private NavigatorFragment.NavigatorView view;
-    private int currentFloor = 0;
+    private int currentFloor;
+    private int minFloor, maxFloor;
+    private Path route = null;
 
     NavigatorPresenter(Context context, NavigatorFragment.NavigatorView view) {
-        navigator =  Navigator.fromGeojson(AssetLoader.loadGeoJson(context, "kampus.min.geojson"));
+        navigator =  Navigator.fromGeojson(AssetLoader.loadGeoJson(context, "kampus_witch.min.geojson"));
         this.view = view;
     }
 
@@ -24,25 +28,33 @@ public class NavigatorPresenter {
             case UP:
                 view.setFloor(++currentFloor);
                 view.setDirectionFabState(FloorChangeDirections.DOWN, true);
-                if(currentFloor == 3) view.setDirectionFabState(FloorChangeDirections.UP, false);
+                if(currentFloor == maxFloor) view.setDirectionFabState(FloorChangeDirections.UP, false);
+                view.showRoute(
+                        GeoJson.encode(
+                                route.oneFloorSubPath(String.valueOf(currentFloor))));
                 break;
             case DOWN:
                 view.setFloor(--currentFloor);
                 view.setDirectionFabState(FloorChangeDirections.UP, true);
-                if(currentFloor == -3) view.setDirectionFabState(FloorChangeDirections.DOWN, false);
+                if(currentFloor == minFloor) view.setDirectionFabState(FloorChangeDirections.DOWN, false);
+                view.showRoute(
+                        GeoJson.encode(
+                                route.oneFloorSubPath(String.valueOf(currentFloor))));
                 break;
         }
     }
 
     public boolean showRoute(Context context, String source, String destination) {
         if (getWaypoints().contains(source) && getWaypoints().contains(destination)) {
-            view.showRoute(navigator.getShortestPathGeoJson(source, destination));
+            route = navigator.getShortestPath(source, destination);
+            setupAndShowRoute();
             return true;
         } else if (source.equals(destination) && !source.isEmpty()) {
             view.showDestinationReached();
             return false;
         } else if (source.equals(context.getString(R.string.my_location))) {
-            view.showRoute(navigator.getShortestPathGeoJson("50.071289", "19.941174", destination));
+            route = navigator.getShortestPath("50.071799", "19.941754", destination);
+            setupAndShowRoute();
             return true;
         } else {
             view.showBadWaypointError();
@@ -52,5 +64,18 @@ public class NavigatorPresenter {
 
     public List<String> getWaypoints() {
         return navigator.getWaypointsNames();
+    }
+
+    private void setupAndShowRoute() {
+        minFloor = route.getMinFloor();
+        maxFloor = route.getMaxFloor();
+        currentFloor = Integer.parseInt(route.getPoints().get(0).getFloor());
+
+        view.setFloor(currentFloor);
+        view.setDirectionFabState(FloorChangeDirections.DOWN, minFloor < currentFloor);
+        view.setDirectionFabState(FloorChangeDirections.UP, maxFloor > currentFloor);
+        view.showRoute(
+                GeoJson.encode(
+                        route.oneFloorSubPath(route.getPoints().get(0).getFloor())));
     }
 }

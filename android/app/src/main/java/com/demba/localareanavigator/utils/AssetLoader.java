@@ -19,7 +19,6 @@ public class AssetLoader {
             return new BufferedReader(
                     new InputStreamReader(inputStream))
                     .lines()
-                    .parallel()
                     .collect(Collectors.joining(DELIMITER_NEW_LINE));
         } catch (IOException e) {
             e.printStackTrace();
