@@ -28,6 +28,15 @@ public class Navigator {
         return GeoJson.encode(shortestPath);
     }
 
+    public Path getShortestPath(String source, String destination) {
+        Path shortestPath = graph
+                .getShortestPath(
+                        graph.getVertexByName(source),
+                        graph.getVertexByName(destination)
+                );
+        return shortestPath;
+    }
+
     public String getShortestPathGeoJson(String sourceLatitude, String sourceLongitude, String destination) {
         Path shortestPath = graph
                 .getShortestPath(
@@ -38,6 +47,18 @@ public class Navigator {
         shortestPath.addStartingVertex(new Vertex(sourceLatitude, sourceLongitude, "0"));
 
         return GeoJson.encode(shortestPath);
+    }
+
+    public Path getShortestPath(String sourceLatitude, String sourceLongitude, String destination) {
+        Path shortestPath = graph
+                .getShortestPath(
+                        graph.getNearestVertex(sourceLatitude, sourceLongitude),
+                        graph.getVertexByName(destination)
+                );
+
+        shortestPath.addStartingVertex(new Vertex(sourceLatitude, sourceLongitude, "0"));
+
+        return shortestPath;
     }
 
     public List<String> getWaypointsNames() {

@@ -16,11 +16,11 @@ public class TempTest {
         //System.out.println(GeoJson.encode(GeoJson.parse(GeoJson.encode(Path.from(Gpx.read(SampleGpxTrack.track3)).simplify()))));
 
 
-        String data = Navigator.getGeoJsonFromGpx(SampleGpxTrack.track4);
+        String data = Navigator.getGeoJsonFromGpx(SampleGpxTrack.track2);
 
         System.out.println(data);
 
-        Graph graph = GeoJson.parse(data);
+        //Graph graph = GeoJson.parse(data);
 
         //Navigator navigator = Navigator.fromGeojson(data);
 

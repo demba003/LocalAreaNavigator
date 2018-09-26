@@ -8,7 +8,7 @@ public class Vertex {
 
     private final String latitude;
     private final String longitude;
-    private final String floor;
+    private String floor;
     private String name;
 
     public Vertex(String latitude, String longitude, String floor, String name) {
@@ -39,6 +39,10 @@ public class Vertex {
 
     public String getFloor() {
         return floor;
+    }
+
+    public void setFloor(String floor) {
+        this.floor = floor;
     }
 
     public String getName() {

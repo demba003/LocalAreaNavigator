@@ -4,6 +4,7 @@ import com.demba.navigator.entities.gpx.GpxEntity;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -23,11 +24,10 @@ public class Path {
         this.points = points;
     }
 
-
     public Path simplify() {
         for (int i = 0; i < getPoints().size(); i++) {
             for (int j = 0; j < getPoints().size(); j++) {
-                if (getPoints().get(i) != getPoints().get(j) && areVerticesClose(getPoints().get(j),getPoints().get(i))) {
+                if (getPoints().get(i) != getPoints().get(j) && areVerticesClose(getPoints().get(j), getPoints().get(i))) {
                     double newLat = round((Double.parseDouble(getPoints().get(i).getLatitude()) + Double.parseDouble(getPoints().get(j).getLatitude())) / 2, 5);
                     double newLon = round((Double.parseDouble(getPoints().get(i).getLongitude()) + Double.parseDouble(getPoints().get(j).getLongitude())) / 2, 5);
 
@@ -60,6 +60,28 @@ public class Path {
 
     public List<Vertex> getPoints() {
         return points;
+    }
+
+    public int getMaxFloor() {
+        return Integer.parseInt(points
+                .stream()
+                .max(Comparator.comparing(Vertex::getFloor))
+                .orElse(new Vertex("", "", "0"))
+                .getFloor());
+    }
+
+    public int getMinFloor() {
+        return Integer.parseInt(points
+                .stream()
+                .min(Comparator.comparing(Vertex::getFloor))
+                .orElse(new Vertex("", "", "0"))
+                .getFloor());
+    }
+
+    public Path oneFloorSubPath(String floor) {
+        return new Path(points.stream()
+        .filter(vertex -> vertex.getFloor().equals(floor))
+        .collect(Collectors.toList()));
     }
 
     @Override

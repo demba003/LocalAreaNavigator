@@ -12,13 +12,13 @@ import static org.junit.Assert.*;
 
 public class GeoJsonTest {
 
-    @Test
+    /*@Test
     public void kampus() throws Exception {
-        String data = Navigator.getGeoJsonFromGpx(SampleGpxTrack.track5);
+        String data = Navigator.getGeoJsonFromGpx(SampleGpxTrack.track1);
         Navigator navigator = Navigator.fromGeojson(data);
         System.out.println(data);
         System.out.println(navigator.getShortestPathGeoJson("115", "175"));
-    }
+    }*/
 
     /*@Test
     public void encodeGraphTest() throws Exception {

@@ -41,6 +41,7 @@ public class Graph {
             if (sourceVertex.getDistance(vertex) < distance) {
                 distance = sourceVertex.getDistance(vertex);
                 returnVertex = vertex;
+                returnVertex.setFloor(vertex.getFloor());
             }
         }
 
