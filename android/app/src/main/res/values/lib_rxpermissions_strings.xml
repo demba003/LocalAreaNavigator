@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- If you include it in your own library use this pattern: define_* -->
+    <!-- If it should be included in the AboutLibraries lib use this pattern: define_int_* -->
+    <string name="define_RxPermissions"></string>
+    <string name="library_RxPermissions_author">tbruyelle</string>
+    <string name="library_RxPermissions_authorWebsite">https://github.com/tbruyelle/</string>
+    <string name="library_RxPermissions_libraryName">RxPermissions</string>
+    <string name="library_RxPermissions_libraryDescription">This library allows the usage of RxJava with the new Android M permission model.</string>
+    <string name="library_RxPermissions_libraryVersion">0.10.2</string>
+    <string name="library_RxPermissions_libraryWebsite">https://github.com/tbruyelle/RxPermissions</string>
+    <!-- Possible values right now: apache_2_0, mit, bsd_2, bsd_3 -->
+    <string name="library_RxPermissions_licenseId">apache_2_0</string>
+    <!-- you still can define the license within your library definition, but it is recommend to use the id -->
+    <!-- possible fields for a custom license: *_licenseVersion, *_licenseLink, *_licenseContent -->
+    <string name="library_RxPermissions_isOpenSource">true</string>
+    <string name="library_RxPermissions_repositoryLink">https://github.com/tbruyelle/RxPermissions</string>
+</resources>

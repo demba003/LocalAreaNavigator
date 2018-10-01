@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- If you include it in your own library use this pattern: define_* -->
+    <!-- If it should be included in the AboutLibraries lib use this pattern: define_int_* -->
+    <string name="define_FloatingActionButton"></string>
+    <string name="library_FloatingActionButton_author">Clans</string>
+    <string name="library_FloatingActionButton_authorWebsite">https://github.com/Clans</string>
+    <string name="library_FloatingActionButton_libraryName">FloatingActionButton</string>
+    <string name="library_FloatingActionButton_libraryDescription">Yet another implementation of Floating Action Button for Android with lots of features.</string>
+    <string name="library_FloatingActionButton_libraryVersion">1.6.4</string>
+    <string name="library_FloatingActionButton_libraryWebsite">https://github.com/Clans/FloatingActionButton</string>
+    <!-- Possible values right now: apache_2_0, mit, bsd_2, bsd_3 -->
+    <string name="library_FloatingActionButton_licenseId">apache_2_0</string>
+    <!-- you still can define the license within your library definition, but it is recommend to use the id -->
+    <!-- possible fields for a custom license: *_licenseVersion, *_licenseLink, *_licenseContent -->
+    <string name="library_FloatingActionButton_isOpenSource">true</string>
+    <string name="library_FloatingActionButton_repositoryLink">https://github.com/Clans/FloatingActionButton</string>
+</resources>

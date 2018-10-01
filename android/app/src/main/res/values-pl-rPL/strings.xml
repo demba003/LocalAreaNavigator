@@ -8,4 +8,6 @@
     <string name="my_location">Moja lokalizacja</string>
     <string name="destination_reached">Jesteś już na miejscu!</string>
     <string name="ground_floor">Parter</string>
+    <string name="loading_error">Błąd podczas wczytywania miejsc</string>
+    <string name="libs_info">Lista bibliotek wykorzystywanych przez tę aplikację</string>
 </resources>

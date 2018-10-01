@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- If you include it in your own library use this pattern: define_* -->
+    <!-- If it should be included in the AboutLibraries lib use this pattern: define_int_* -->
+    <string name="define_Mapbox"></string>
+    <string name="library_Mapbox_author">Mapbox</string>
+    <string name="library_Mapbox_authorWebsite">https://www.mapbox.com</string>
+    <string name="library_Mapbox_libraryName">Mapbox Maps SDK</string>
+    <string name="library_Mapbox_libraryDescription">A library based on Mapbox GL Native for embedding interactive map views with scalable, customizable vector maps onto Android devices.</string>
+    <string name="library_Mapbox_libraryVersion">6.4.0</string>
+    <string name="library_Mapbox_libraryWebsite">https://www.mapbox.com/android-sdk/</string>
+    <!-- Possible values right now: apache_2_0, mit, bsd_2, bsd_3 -->
+    <string name="library_Mapbox_licenseId">bsd_3</string>
+    <!-- you still can define the license within your library definition, but it is recommend to use the id -->
+    <!-- possible fields for a custom license: *_licenseVersion, *_licenseLink, *_licenseContent -->
+    <string name="library_Mapbox_isOpenSource">true</string>
+    <string name="library_Mapbox_repositoryLink">https://github.com/mapbox/mapbox-gl-native/tree/master/platform/android</string>
+</resources>

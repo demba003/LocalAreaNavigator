@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import com.demba.localareanavigator.R;
 import com.demba.localareanavigator.screen.browseplaces.BrowsePlacesFragment;
 import com.demba.localareanavigator.screen.map.NavigatorFragment;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import butterknife.BindView;
@@ -81,7 +82,15 @@ public class MainActivity extends AppCompatActivity
 
                 break;
             case R.id.legal_notices:
-
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.content_frame, new LibsBuilder()
+                                .withLicenseShown(true)
+                                .withVersionShown(true)
+                                .withAboutIconShown(true)
+                                .withAboutDescription(getResources().getString(R.string.libs_info))
+                                .supportFragment())
+                        .commit();
                 break;
         }
 
