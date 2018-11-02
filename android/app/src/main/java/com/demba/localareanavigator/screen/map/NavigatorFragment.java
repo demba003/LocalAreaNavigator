@@ -38,6 +38,8 @@ import butterknife.OnClick;
 
 
 public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
+    public static final String PLACE_EXTRA = "place";
+
     private NavigatorView view;
     private NavigatorPresenter presenter;
     private MapView mapView;
@@ -47,7 +49,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
     public static NavigatorFragment getFragment(Place place) {
         NavigatorFragment navigatorFragment = new NavigatorFragment();
         Bundle arguments = new Bundle();
-        arguments.putSerializable("place", place);
+        arguments.putString(PLACE_EXTRA, place.getName());
         navigatorFragment.setArguments(arguments);
         return navigatorFragment;
     }
@@ -109,7 +111,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onMapReady(MapboxMap mapboxMap) {
         this.view = new NavigatorView(mapboxMap);
-        presenter = new NavigatorPresenter(getContext(), this.view);
+        presenter = new NavigatorPresenter(getContext(), this.view, getArguments() != null ? getArguments().getString(PLACE_EXTRA) : "kampus");
     }
 
     class NavigatorView {
@@ -122,6 +124,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
         AutoCompleteTextView sourceTextView;
         AutoCompleteTextView destinationTextView;
 
+        @BindView(R.id.fab) FloatingActionButton fab;
         @BindView(R.id.fab_up) FloatingActionButton fab_up;
         @BindView(R.id.fab_down) FloatingActionButton fab_down;
         @BindView(R.id.floor) TextView floor;
@@ -133,19 +136,14 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             buildRouteDialog();
         }
 
-        @OnClick(R.id.fab)
-        public void showRouteDialog(View view) {
-            showRouteDialog();
-        }
-
         @OnClick(R.id.fab_up)
-        public void floorUp(View view) {
+        public void floorUp() {
             presenter.changeFloor(FloorChangeDirections.UP);
 
         }
 
         @OnClick(R.id.fab_down)
-        public void floorDown(View view) {
+        public void floorDown() {
             presenter.changeFloor(FloorChangeDirections.DOWN);
         }
 
@@ -168,6 +166,10 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             }
         }
 
+        void enableFab() {
+            fab.setVisibility(View.VISIBLE);
+        }
+
         private void initMapElements() {
             geoJsonSource = new GeoJsonSource("geoJsonSource", "");
             mapboxMap.addSource(geoJsonSource);
@@ -185,6 +187,7 @@ public class NavigatorFragment extends Fragment implements OnMapReadyCallback {
             getLifecycle().addObserver(locationPlugin);
         }
 
+        @OnClick(R.id.fab)
         void showRouteDialog() {
             if (findRouteDialog != null && getContext() != null) {
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.dialog_navigation_dropdown, presenter.getWaypoints());

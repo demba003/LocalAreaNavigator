@@ -2,6 +2,7 @@ package com.demba.localareanavigator.screen.browseplaces
 
 import com.demba.localareanavigator.R
 import com.demba.localareanavigator.network.models.Place
+import com.demba.localareanavigator.screen.main.MainActivity
 import com.demba.localareanavigator.screen.map.NavigatorFragment
 import com.demba.localareanavigator.utils.NetworkUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,5 +35,7 @@ class BrowsePlacesPresenter(val view: BrowsePlacesFragment) {
                 .beginTransaction()
                 .replace(R.id.content_frame, NavigatorFragment.getFragment(place))
                 .commit()
+
+        (view.activity as MainActivity).setActiveTab(R.id.view_map)
     }
 }

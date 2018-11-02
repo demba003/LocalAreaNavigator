@@ -1,15 +1,19 @@
 package com.demba.localareanavigator.screen.map;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.demba.localareanavigator.R;
-import com.demba.localareanavigator.utils.AssetLoader;
 import com.demba.localareanavigator.utils.FloorChangeDirections;
+import com.demba.localareanavigator.utils.NetworkUtils;
 import com.demba.navigator.Navigator;
 import com.demba.navigator.entities.GeoJson;
 import com.demba.navigator.models.Path;
 
 import java.util.List;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 public class NavigatorPresenter {
     private Navigator navigator;
@@ -18,8 +22,21 @@ public class NavigatorPresenter {
     private int minFloor, maxFloor;
     private Path route = null;
 
-    NavigatorPresenter(Context context, NavigatorFragment.NavigatorView view) {
-        navigator =  Navigator.fromGeojson(AssetLoader.loadGeoJson(context, "kampus_witch.min.geojson"));
+    NavigatorPresenter(Context context, NavigatorFragment.NavigatorView view, String placeName) {
+        if (!placeName.isEmpty()) {
+            NetworkUtils.INSTANCE
+                    .getBackendService()
+                    .getPlace(placeName)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSuccess(place -> {
+                        navigator =  Navigator.fromGeojson(place.getData());
+                        view.enableFab();
+                    })
+                    .doOnError(throwable -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show())
+                    .subscribe();
+        }
+
         this.view = view;
     }
 

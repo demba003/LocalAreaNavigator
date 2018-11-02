@@ -8,7 +8,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkUtils {
     fun getBackendService(): BackendService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("http://172.19.75.229:8080/")
+                .baseUrl("https://local-area-navigator.herokuapp.com/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
