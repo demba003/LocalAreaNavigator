@@ -15,7 +15,8 @@ class PlacesController {
     fun places(): Array<Place> {
         val url = "https://api.mapbox.com/styles/v1/mapbox/streets-v10/static/19.942,50.0719,16/600x400?access_token=pk.eyJ1IjoiZGVtYmEiLCJhIjoiY2pibWo3cW43M2I5eDM0cjY0eG4zY2JxZyJ9.SFBv4D82Ih54yJHF5U__BQ"
         val place = Place("kampus", null, url)
-        return arrayOf(place, place, place, place)
+        val place2 = Place("kampus witch", null, url)
+        return arrayOf(place, place2, place, place2)
     }
 
     @GetMapping("/places/{id}")
