@@ -9,6 +9,21 @@ import static org.junit.Assert.*;
 public class VertexTest {
 
     @Test
+    public void basicTest() {
+        // given
+        Vertex vertex = new Vertex("50", "19", "0", "Name");
+
+        // when
+        vertex.setFloor("1");
+        vertex.setName("Other");
+
+        // then
+        assertEquals("1", vertex.getFloor());
+        assertEquals("Other", vertex.getName());
+        assertEquals("(Other)[50, 19 : 1]", vertex.toString());
+    }
+
+    @Test
     public void fromTest() {
         // given
         TrkptEntity trkptEntity = new TrkptEntity();

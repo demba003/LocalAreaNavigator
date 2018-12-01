@@ -1,7 +1,5 @@
 package com.demba.navigator.models;
 
-import com.demba.navigator.entities.gpx.TrkptEntity;
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,16 +9,8 @@ public class EdgeTest {
     @Test
     public void edgeTest() {
         // given
-        TrkptEntity trkptEntity = new TrkptEntity();
-        trkptEntity.lat = "50.07247282";
-        trkptEntity.lon = "19.94061201";
-
-        TrkptEntity trkptEntity2 = new TrkptEntity();
-        trkptEntity2.lat = "50.07181176";
-        trkptEntity2.lon = "19.94025796";
-
-        Vertex vertex1 = Vertex.from(trkptEntity);
-        Vertex vertex2 = Vertex.from(trkptEntity2);
+        Vertex vertex1 = new Vertex("50.07247282", "19.94061201", "0");
+        Vertex vertex2 = new Vertex("50.07181176", "19.94025796", "0");
 
         // when
         Edge edge = new Edge(vertex1, vertex2);
@@ -29,5 +19,6 @@ public class EdgeTest {
         assertEquals(vertex1, edge.getSource());
         assertEquals(vertex2, edge.getDestination());
         assertEquals(78, edge.getDistance(), 0.5);
+        assertEquals("[[50.07247282, 19.94061201 : 0] - [50.07181176, 19.94025796 : 0]]", edge.toString());
     }
 }

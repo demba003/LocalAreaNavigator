@@ -20,7 +20,7 @@ public class Path {
                         .collect(Collectors.toList()));
     }
 
-    Path(List<Vertex> points) {
+    public Path(List<Vertex> points) {
         this.points = points;
     }
 
