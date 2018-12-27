@@ -31,11 +31,16 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:visibility="visible"/>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/placesRecycler"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/element_card_place" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/placesRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/element_card_place" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -20,11 +20,13 @@ class BrowsePlacesPresenter(val view: BrowsePlacesFragment) {
                         onSuccess = {
                             view.displayDownloadedPlaces(it)
                             view.hideProgressBar()
+                            view.hideRefreshingIndicator()
                         },
                         onError = {
                             it.printStackTrace()
                             view.showLoadingError()
                             view.hideProgressBar()
+                            view.hideRefreshingIndicator()
                         }
                 )
     }

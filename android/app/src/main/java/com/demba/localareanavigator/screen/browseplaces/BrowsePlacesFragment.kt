@@ -22,6 +22,7 @@ class BrowsePlacesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         presenter = BrowsePlacesPresenter(this)
         presenter.downloadPlaces()
+        swipeRefreshLayout.setOnRefreshListener(presenter::downloadPlaces)
     }
 
     fun displayDownloadedPlaces(places: List<Place>) {
@@ -38,5 +39,9 @@ class BrowsePlacesFragment : Fragment() {
 
     fun hideProgressBar() {
         progressBar.visibility = View.GONE
+    }
+
+    fun hideRefreshingIndicator() {
+        swipeRefreshLayout.isRefreshing = false
     }
 }
