@@ -42,10 +42,12 @@
         android:layout_marginEnd="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/sourceTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/sourceTextView"
-        app:srcCompat="@drawable/ic_my_location" />
+        app:srcCompat="@drawable/ic_my_location"
+        tools:visibility="visible"/>
 
     <TextView
         android:id="@+id/textView2"
@@ -82,10 +84,12 @@
         android:layout_marginEnd="10dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="true"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/destinationTextView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/destinationTextView"
-        app:srcCompat="@drawable/ic_my_location" />
+        app:srcCompat="@drawable/ic_my_location"
+        tools:visibility="visible" />
 
     <Button
         android:id="@+id/showRoute"

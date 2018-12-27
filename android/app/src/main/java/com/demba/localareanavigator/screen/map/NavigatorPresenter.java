@@ -1,6 +1,7 @@
 package com.demba.localareanavigator.screen.map;
 
 import android.content.Context;
+import android.location.Location;
 import android.widget.Toast;
 
 import com.demba.localareanavigator.R;
@@ -36,7 +37,6 @@ public class NavigatorPresenter {
                     .doOnError(throwable -> Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show())
                     .subscribe();
         }
-
         this.view = view;
     }
 
@@ -61,7 +61,7 @@ public class NavigatorPresenter {
         }
     }
 
-    public boolean showRoute(Context context, String source, String destination) {
+    public boolean showRoute(Context context, String source, String destination, Location location) {
         if (getWaypoints().contains(source) && getWaypoints().contains(destination)) {
             route = navigator.getShortestPath(source, destination);
             setupAndShowRoute();
@@ -70,7 +70,7 @@ public class NavigatorPresenter {
             view.showDestinationReached();
             return false;
         } else if (source.equals(context.getString(R.string.my_location))) {
-            route = navigator.getShortestPath("50.071799", "19.941754", destination);
+            route = navigator.getShortestPath(String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()), destination);
             setupAndShowRoute();
             return true;
         } else {

@@ -11,13 +11,11 @@ import kotlinx.android.synthetic.main.fragment_browse_places.*
 import com.demba.localareanavigator.network.models.Place
 
 class BrowsePlacesFragment : Fragment() {
-    private lateinit var fragmentView: View
     private lateinit var presenter: BrowsePlacesPresenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        fragmentView = inflater.inflate(R.layout.fragment_browse_places, container, false)
-        return fragmentView
+        return inflater.inflate(R.layout.fragment_browse_places, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

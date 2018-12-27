@@ -24,7 +24,7 @@
     </com.mapbox.mapboxsdk.maps.MapView>
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab_up"
+        android:id="@+id/fabUp"
         style="@style/Fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,13 +50,13 @@
         android:padding="5dp"
         android:visibility="gone"
         android:animateLayoutChanges="true"
-        app:layout_constraintBottom_toTopOf="@+id/fab_down"
+        app:layout_constraintBottom_toTopOf="@+id/fabDown"
         app:layout_constraintEnd_toEndOf="@+id/fab"
         app:layout_constraintStart_toStartOf="@+id/fab"
         tools:visibility="visible"/>
 
     <com.github.clans.fab.FloatingActionButton
-        android:id="@+id/fab_down"
+        android:id="@+id/fabDown"
         style="@style/Fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
