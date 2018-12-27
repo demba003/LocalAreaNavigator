@@ -11,6 +11,9 @@ import io.reactivex.schedulers.Schedulers
 
 class BrowsePlacesPresenter(val view: BrowsePlacesFragment) {
     fun downloadPlaces() {
+        view.hideLoadingError()
+        view.showProgressBar()
+
         NetworkUtils
                 .getBackendService()
                 .getPlaces()
@@ -21,6 +24,7 @@ class BrowsePlacesPresenter(val view: BrowsePlacesFragment) {
                             view.displayDownloadedPlaces(it)
                             view.hideProgressBar()
                             view.hideRefreshingIndicator()
+                            view.hideLoadingError()
                         },
                         onError = {
                             it.printStackTrace()

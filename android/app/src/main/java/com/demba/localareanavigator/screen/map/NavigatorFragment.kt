@@ -12,10 +12,7 @@ import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
-import android.widget.ImageView
+import android.widget.*
 import com.demba.localareanavigator.R
 import com.demba.localareanavigator.network.models.Place
 import com.demba.localareanavigator.utils.FloorChangeDirections
@@ -89,8 +86,7 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(mapboxMap: MapboxMap) {
-        presenter = NavigatorPresenter(context, NavigatorView(mapboxMap), arguments?.getString(PLACE_EXTRA)
-                ?: "")
+        presenter = NavigatorPresenter(NavigatorView(mapboxMap), arguments?.getString(PLACE_EXTRA) ?: "")
     }
 
     internal inner class NavigatorView(private val mapboxMap: MapboxMap) {
@@ -219,6 +215,10 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
 
         fun showBadWaypointError() {
             SnackbarUtils.showError(context!!, findRouteView!!, getString(R.string.bad_waypoint), Snackbar.LENGTH_SHORT)
+        }
+
+        fun showLoadingError() {
+            Toast.makeText(context, R.string.loading_error, Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -13,6 +13,6 @@
     <string name="my_location">My location</string>
     <string name="destination_reached">You\'ve already reached destination!</string>
     <string name="ground_floor">Ground floor</string>
-    <string name="loading_error">Error during loading of places</string>
+    <string name="loading_error">Error during loading</string>
     <string name="libs_info">List of libraries used in this app</string>
 </resources>

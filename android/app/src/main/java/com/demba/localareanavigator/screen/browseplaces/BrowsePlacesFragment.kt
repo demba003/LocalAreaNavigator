@@ -37,6 +37,14 @@ class BrowsePlacesFragment : Fragment() {
         loadingErrorText.visibility = View.VISIBLE
     }
 
+    fun hideLoadingError() {
+        loadingErrorText.visibility = View.GONE
+    }
+
+    fun showProgressBar() {
+        progressBar.visibility = View.VISIBLE
+    }
+
     fun hideProgressBar() {
         progressBar.visibility = View.GONE
     }

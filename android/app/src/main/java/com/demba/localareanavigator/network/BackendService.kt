@@ -7,9 +7,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface BackendService {
-    @GET("/places")
+    @GET("/place")
     fun getPlaces(): Single<List<Place>>
 
-    @GET("/places/{name}")
+    @GET("/place/{name}")
     fun getPlace(@Path("name") name: String): Single<Place>
 }
