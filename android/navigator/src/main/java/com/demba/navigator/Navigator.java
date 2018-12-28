@@ -20,21 +20,15 @@ public class Navigator {
     }
 
     public String getShortestPathGeoJson(String source, String destination) {
-        Path shortestPath = graph
-                .getShortestPath(
-                        graph.getVertexByName(source),
-                        graph.getVertexByName(destination)
-                );
-        return GeoJson.encode(shortestPath);
+        return GeoJson.encode(getShortestPath(source, destination));
     }
 
     public Path getShortestPath(String source, String destination) {
-        Path shortestPath = graph
+        return graph
                 .getShortestPath(
                         graph.getVertexByName(source),
                         graph.getVertexByName(destination)
                 );
-        return shortestPath;
     }
 
     public String getShortestPathGeoJson(String sourceLatitude, String sourceLongitude, String destination) {
@@ -59,6 +53,23 @@ public class Navigator {
         shortestPath.addStartingVertex(new Vertex(sourceLatitude, sourceLongitude, "0"));
 
         return shortestPath;
+    }
+
+    public Path getShortestPath(String sourceLatitude, String sourceLongitude, String destinationLatitude, String destinationLongitude) {
+        Path shortestPath = graph
+                .getShortestPath(
+                        graph.getNearestVertex(sourceLatitude, sourceLongitude),
+                        graph.getNearestVertex(destinationLatitude, destinationLongitude)
+                );
+
+        shortestPath.addStartingVertex(new Vertex(sourceLatitude, sourceLongitude, "0"));
+        shortestPath.addEndingVertex(new Vertex(destinationLatitude, destinationLongitude, "0"));
+
+        return shortestPath;
+    }
+
+    public String getShortestPathGeoJson(String sourceLatitude, String sourceLongitude, String destinationLatitude, String destinationLongitude) {
+        return GeoJson.encode(getShortestPath(sourceLatitude, sourceLongitude, destinationLatitude, destinationLongitude));
     }
 
     public List<String> getWaypointsNames() {

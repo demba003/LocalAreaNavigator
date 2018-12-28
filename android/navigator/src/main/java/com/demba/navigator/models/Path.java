@@ -58,6 +58,10 @@ public class Path {
         points.add(0, vertex);
     }
 
+    public void addEndingVertex(Vertex vertex) {
+        points.add(vertex);
+    }
+
     public List<Vertex> getPoints() {
         return points;
     }
