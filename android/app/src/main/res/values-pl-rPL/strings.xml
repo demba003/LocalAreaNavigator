@@ -10,4 +10,12 @@
     <string name="ground_floor">Parter</string>
     <string name="loading_error">Błąd podczas pobierania</string>
     <string name="libs_info">Lista bibliotek wykorzystywanych przez tę aplikację</string>
+    <string name="map">Mapa</string>
+    <string name="browse_places">Przeglądaj miejsca</string>
+    <string name="legal_notices">Informacje prawne</string>
+    <string name="publish_own_location">Opublikuj własną lokację</string>
+    <string name="place_name">Nazwa miejsca</string>
+    <string name="gpx_file">Plik GPX</string>
+    <string name="choose_file">Wybierz plik</string>
+    <string name="publish">Opublikuj</string>
 </resources>

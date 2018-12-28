@@ -15,4 +15,12 @@
     <string name="ground_floor">Ground floor</string>
     <string name="loading_error">Error during loading</string>
     <string name="libs_info">List of libraries used in this app</string>
+    <string name="map">Map</string>
+    <string name="browse_places">Browse places</string>
+    <string name="publish_own_location">Publish own location</string>
+    <string name="legal_notices">Legal notices</string>
+    <string name="place_name">Place name</string>
+    <string name="gpx_file">GPX file</string>
+    <string name="choose_file">Choose file</string>
+    <string name="publish">Publish</string>
 </resources>

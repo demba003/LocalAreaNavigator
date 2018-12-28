@@ -11,4 +11,5 @@
     <color name="fab_colorRipple">#62B2FF</color>
     <color name="white">#FFFFFF</color>
     <color name="red">#ce0000</color>
+    <color name="black">#000</color>
 </resources>

@@ -9,15 +9,15 @@
         <item
             android:id="@+id/view_map"
             android:icon="@drawable/ic_map_black"
-            android:title="Mapa" />
+            android:title="@string/map" />
         <item
             android:id="@+id/browse_places"
             android:icon="@drawable/ic_library_books"
-            android:title="Przeglądaj miejsca" />
+            android:title="@string/browse_places" />
         <item
             android:id="@+id/make_location"
-            android:icon="@drawable/ic_person_walking"
-            android:title="Utwórz własną lokację" />
+            android:icon="@drawable/ic_backup"
+            android:title="@string/publish_own_location" />
     </group>
     <group
         android:id="@+id/menu_bottom"
@@ -25,7 +25,7 @@
         <item
             android:id="@+id/legal_notices"
             android:icon="@drawable/ic_court"
-            android:title="Informacje prawne" />
+            android:title="@string/legal_notices" />
     </group>
 
 </menu>

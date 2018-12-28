@@ -85,8 +85,16 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
         mapView.onSaveInstanceState(outState)
     }
 
+
+    fun setTitle(title: String) {
+        activity?.title = "${getString(R.string.map)} - $title"
+    }
+
     override fun onMapReady(mapboxMap: MapboxMap) {
         presenter = NavigatorPresenter(NavigatorView(mapboxMap), arguments?.getString(PLACE_EXTRA) ?: "")
+        arguments?.getString(PLACE_EXTRA)?.let {
+            setTitle(it)
+        }
     }
 
     internal inner class NavigatorView(private val mapboxMap: MapboxMap) {

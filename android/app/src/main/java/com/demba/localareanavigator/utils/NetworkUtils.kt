@@ -10,8 +10,9 @@ import java.util.concurrent.TimeUnit
 
 object NetworkUtils {
     fun getBackendService(): BackendService {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val interceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
 
         val client = OkHttpClient.Builder()
                 .addInterceptor(interceptor)
