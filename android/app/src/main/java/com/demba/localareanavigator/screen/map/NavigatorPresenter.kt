@@ -1,9 +1,5 @@
 package com.demba.localareanavigator.screen.map
 
-import android.content.Context
-import android.location.Location
-
-import com.demba.localareanavigator.R
 import com.demba.localareanavigator.utils.FloorChangeDirections
 import com.demba.localareanavigator.utils.NetworkUtils
 import com.demba.navigator.Navigator
@@ -64,7 +60,7 @@ class NavigatorPresenter internal constructor(private val view: NavigatorFragmen
         }
     }
 
-    fun showRoute(context: Context?, source: String, destination: String, location: Location?): Boolean {
+    fun showRoute(source: String, destination: String): Boolean {
         if (waypoints.contains(source) && waypoints.contains(destination)) {
             route = navigator!!.getShortestPath(source, destination)
             setupAndShowRoute()
@@ -72,8 +68,18 @@ class NavigatorPresenter internal constructor(private val view: NavigatorFragmen
         } else if (source == destination && !source.isEmpty()) {
             view.showDestinationReached()
             return false
-        } else if (source == context?.getString(R.string.my_location)) {
-            route = navigator!!.getShortestPath(location?.latitude.toString(), location?.longitude.toString(), destination)
+        } else if (source.contains(Regex("-*[0-9]*\\.[0-9]*, -*[0-9]*\\.[0-9]*")) &&
+                destination.contains(Regex("-*[0-9]*\\.[0-9]*, -*[0-9]*\\.[0-9]*"))) {
+            route = navigator!!.getShortestPath(source.substring(0, source.indexOf(',')), source.substring(source.indexOf(",") + 1),
+                    destination.substring(0, destination.indexOf(',')), destination.substring(destination.indexOf(",") + 1))
+            setupAndShowRoute()
+            return true
+        } else if (source.contains(Regex("-*[0-9]*\\.[0-9]*, -*[0-9]*\\.[0-9]*")) && waypoints.contains(destination)) {
+            route = navigator?.getShortestPath(source.substring(0, source.indexOf(',')), source.substring(source.indexOf(",") + 1), destination)
+            setupAndShowRoute()
+            return true
+        } else if (destination.contains(Regex("-*[0-9]*\\.[0-9]*, -*[0-9]*\\.[0-9]*")) && waypoints.contains(source)) {
+            route = navigator?.getShortestPath(destination.substring(0, destination.indexOf(',')), destination.substring(destination.indexOf(",") + 1), source)
             setupAndShowRoute()
             return true
         } else {

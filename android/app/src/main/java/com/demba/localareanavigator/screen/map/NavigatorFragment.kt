@@ -2,6 +2,7 @@ package com.demba.localareanavigator.screen.map
 
 import android.Manifest
 import android.app.Activity
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.design.widget.Snackbar
@@ -19,6 +20,7 @@ import com.demba.localareanavigator.utils.FloorChangeDirections
 import com.demba.localareanavigator.utils.SnackbarUtils
 import com.mapbox.geojson.Point
 import com.mapbox.mapboxsdk.Mapbox
+import com.mapbox.mapboxsdk.camera.CameraPosition
 import com.mapbox.mapboxsdk.camera.CameraUpdateFactory
 import com.mapbox.mapboxsdk.geometry.LatLng
 import com.mapbox.mapboxsdk.geometry.LatLngBounds
@@ -26,15 +28,20 @@ import com.mapbox.mapboxsdk.maps.MapboxMap
 import com.mapbox.mapboxsdk.maps.OnMapReadyCallback
 import com.mapbox.mapboxsdk.plugins.locationlayer.LocationLayerPlugin
 import com.mapbox.mapboxsdk.plugins.locationlayer.modes.RenderMode
+import com.mapbox.mapboxsdk.plugins.places.picker.PlacePicker
+import com.mapbox.mapboxsdk.plugins.places.picker.model.PlacePickerOptions
 import com.mapbox.mapboxsdk.style.layers.LineLayer
 import com.mapbox.mapboxsdk.style.layers.Property
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource
 
 import kotlinx.android.synthetic.main.fragment_map.*
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class NavigatorFragment : Fragment(), OnMapReadyCallback {
 
+    private lateinit var view: NavigatorView
     private var presenter: NavigatorPresenter? = null
     private var findRouteView: View? = null
     private var gpsAccess = false
@@ -85,21 +92,27 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
         mapView.onSaveInstanceState(outState)
     }
 
-
-    fun setTitle(title: String) {
+    private fun setTitle(title: String) {
         activity?.title = "${getString(R.string.map)} - $title"
     }
 
     override fun onMapReady(mapboxMap: MapboxMap) {
-        presenter = NavigatorPresenter(NavigatorView(mapboxMap), arguments?.getString(PLACE_EXTRA) ?: "")
+        view = NavigatorView(mapboxMap)
+        presenter = NavigatorPresenter(view, arguments?.getString(PLACE_EXTRA) ?: "")
         arguments?.getString(PLACE_EXTRA)?.let {
             setTitle(it)
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        view.onActivityResult(requestCode, resultCode, data)
+    }
+
     internal inner class NavigatorView(private val mapboxMap: MapboxMap) {
         private var locationPlugin: LocationLayerPlugin? = null
         private lateinit var findRouteDialog: AlertDialog
+        private lateinit var snackbar: Snackbar
         private var geoJsonSource: GeoJsonSource? = null
         private var linesLayer: LineLayer? = null
         var sourceTextView: AutoCompleteTextView? = null
@@ -177,7 +190,7 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
             findRouteView!!
                     .findViewById<Button>(R.id.showRoute)
                     .setOnClickListener { _ ->
-                        if (presenter!!.showRoute(context, sourceTextView?.text.toString(), destinationTextView?.text.toString(), locationPlugin?.lastKnownLocation)) {
+                        if (presenter!!.showRoute(sourceTextView?.text.toString(), destinationTextView?.text.toString())) {
                             findRouteDialog.dismiss()
                             fabUp.visibility = View.VISIBLE
                             fabDown.visibility = View.VISIBLE
@@ -186,15 +199,40 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
                         }
                     }
 
+            findRouteView!!
+                    .findViewById<ImageView>(R.id.pickLocationSource)
+                    .setOnClickListener { pickPlace(PICK_FIRST_PLACE) }
+
+            findRouteView!!
+                    .findViewById<ImageView>(R.id.pickLocationDestination)
+                    .setOnClickListener { pickPlace(PICK_SECOND_PLACE) }
+
             sourceTextView = findRouteView!!.findViewById(R.id.sourceTextView)
             destinationTextView = findRouteView!!.findViewById(R.id.destinationTextView)
 
             findRouteView!!
                     .findViewById<ImageView>(R.id.myLocationSource)
-                    .setOnClickListener { _ -> sourceTextView!!.setText(R.string.my_location) }
+                    .setOnClickListener {
+                        sourceTextView!!.setText(
+                                "${round(locationPlugin?.lastKnownLocation?.latitude.toString())}, ${round(locationPlugin?.lastKnownLocation?.longitude.toString())}")
+                    }
             findRouteView!!
                     .findViewById<ImageView>(R.id.myLocationDestination)
-                    .setOnClickListener { _ -> destinationTextView!!.setText(R.string.my_location) }
+                    .setOnClickListener {
+                        destinationTextView!!.setText(
+                                "${round(locationPlugin?.lastKnownLocation?.latitude.toString())}, ${round(locationPlugin?.lastKnownLocation?.longitude.toString())}")
+                    }
+        }
+
+        private fun pickPlace(code: Int) {
+            startActivityForResult(
+                    PlacePicker.IntentBuilder()
+                            .accessToken("pk.eyJ1IjoiZGVtYmEiLCJhIjoiY2pibWo3cW43M2I5eDM0cjY0eG4zY2JxZyJ9.SFBv4D82Ih54yJHF5U__BQ")
+                            .placeOptions(PlacePickerOptions.builder()
+                                    .statingCameraPosition(CameraPosition.Builder()
+                                            .target(LatLng(50.07117, 19.943047)).zoom(16.0).build())
+                                    .build())
+                            .build(activity), code)
         }
 
         fun showRoute(route: String) {
@@ -210,7 +248,8 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
                         try {
                             val point = feature.geometry() as Point
                             builder.include(LatLng(point.latitude(), point.longitude()))
-                        } catch (ignored: ClassCastException) {}
+                        } catch (ignored: ClassCastException) {
+                        }
                     }
 
             val latLngBounds = builder.build()
@@ -228,10 +267,28 @@ class NavigatorFragment : Fragment(), OnMapReadyCallback {
         fun showLoadingError() {
             Toast.makeText(context, R.string.loading_error, Toast.LENGTH_SHORT).show()
         }
+
+        private fun round(value: String): String {
+            return value.substring(0, value.indexOf('.') + 6)
+        }
+
+        fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+            if (resultCode == Activity.RESULT_OK) {
+                val position = PlacePicker.getLastCameraPosition(data)
+                val source = position?.target?.latitude?.minus(0.00001).toString()
+                val destination = position?.target?.longitude.toString()
+                when (requestCode) {
+                    PICK_FIRST_PLACE -> sourceTextView?.setText("${round(source)}, ${round(destination)}")
+                    PICK_SECOND_PLACE -> destinationTextView?.setText("${round(source)}, ${round(destination)}")
+                }
+            }
+        }
     }
 
     companion object {
         const val PLACE_EXTRA = "place"
+        const val PICK_FIRST_PLACE = 1111
+        const val PICK_SECOND_PLACE = 2222
 
         fun getFragment(place: Place): NavigatorFragment {
             val navigatorFragment = NavigatorFragment()

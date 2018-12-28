@@ -18,4 +18,5 @@
     <string name="gpx_file">Plik GPX</string>
     <string name="choose_file">Wybierz plik</string>
     <string name="publish">Opublikuj</string>
+    <string name="pickFromMap">Wybierz punkty z mapy</string>
 </resources>

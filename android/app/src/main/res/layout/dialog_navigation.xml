@@ -44,9 +44,23 @@
         android:clickable="true"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/sourceTextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/pickLocationSource"
         app:layout_constraintTop_toTopOf="@+id/sourceTextView"
         app:srcCompat="@drawable/ic_my_location"
+        tools:visibility="visible"/>
+
+    <ImageView
+        android:id="@+id/pickLocationSource"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/sourceTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/sourceTextView"
+        app:srcCompat="@drawable/ic_edit_location"
         tools:visibility="visible"/>
 
     <TextView
@@ -86,9 +100,23 @@
         android:clickable="true"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="@+id/destinationTextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/pickLocationDestination"
         app:layout_constraintTop_toTopOf="@+id/destinationTextView"
         app:srcCompat="@drawable/ic_my_location"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/pickLocationDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/destinationTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/destinationTextView"
+        app:srcCompat="@drawable/ic_edit_location"
         tools:visibility="visible" />
 
     <Button
@@ -102,5 +130,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/destinationTextView" />
+
 
 </android.support.constraint.ConstraintLayout>
