@@ -14,6 +14,7 @@
     <string name="destination_reached">You\'ve already reached destination!</string>
     <string name="ground_floor">Ground floor</string>
     <string name="loading_error">Error during loading</string>
+    <string name="sending_error">Error during sending</string>
     <string name="libs_info">List of libraries used in this app</string>
     <string name="map">Map</string>
     <string name="browse_places">Browse places</string>
@@ -24,4 +25,5 @@
     <string name="choose_file">Choose file</string>
     <string name="publish">Publish</string>
     <string name="pickFromMap">Pick points from map</string>
+    <string name="place_sent">Place has been sent successfully</string>
 </resources>

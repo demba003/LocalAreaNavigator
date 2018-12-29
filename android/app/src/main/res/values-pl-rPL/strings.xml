@@ -9,6 +9,7 @@
     <string name="destination_reached">Jesteś już na miejscu!</string>
     <string name="ground_floor">Parter</string>
     <string name="loading_error">Błąd podczas pobierania</string>
+    <string name="sending_error">Błąd podczas wysyłania</string>
     <string name="libs_info">Lista bibliotek wykorzystywanych przez tę aplikację</string>
     <string name="map">Mapa</string>
     <string name="browse_places">Przeglądaj miejsca</string>
@@ -19,4 +20,5 @@
     <string name="choose_file">Wybierz plik</string>
     <string name="publish">Opublikuj</string>
     <string name="pickFromMap">Wybierz punkty z mapy</string>
+    <string name="place_sent">Lokacja została wysłana pomyślnie</string>
 </resources>
